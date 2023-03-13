@@ -6,8 +6,11 @@ import static org.junit.jupiter.api.Assertions.*;
 public class ClientTest {
     @Test
     public void checkButtonGridStyle() {
+        //create new client object
         Client main = new Client();
+        //create new buttonpane to test by calling method
         GridPane buttonPane = main.createButtonGrid();
+        //check if hgap,vgap, and alignment all match.
         assertEquals(0, buttonPane.getVgap(), 0);
         assertEquals(0, buttonPane.getHgap(), 0);
         assertEquals(Pos.BOTTOM_CENTER, buttonPane.getAlignment());
