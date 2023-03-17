@@ -8,7 +8,6 @@ import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.Button;
-import javafx.scene.text.Font;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 
@@ -34,22 +33,12 @@ public class Client extends Application {
         labelAnswer.setAlignment(Pos.CENTER);
 
         //fill buttons accordingly
-        buttonStorage[0][0] = new Button("+");
-        buttonStorage[0][1] = new Button("-");
-        buttonStorage[1][0] = new Button("*");
-        buttonStorage[1][1] = new Button("/");
-        buttonStorage[2][1] = new Button("C");
-        buttonStorage[2][0] = new Button("Q");
-
-        //set font for buttons.
-        Font buttonFont = new Font(15);
-        for (Button[] r : buttonStorage) {
-            for (Button button : r) {
-                if (button != null) {
-                    button.setFont(buttonFont);
-                }
-            }
-        }
+        buttonStorage[0][0] = new CalcButton("+");
+        buttonStorage[0][1] = new CalcButton("-");
+        buttonStorage[1][0] = new CalcButton("*");
+        buttonStorage[1][1] = new CalcButton("/");
+        buttonStorage[2][1] = new CalcButton("C");
+        buttonStorage[2][0] = new CalcButton("Q");
 
         //set size of text fields for number insertion
         textFieldCurrentNum.setPrefSize(120, 20);
