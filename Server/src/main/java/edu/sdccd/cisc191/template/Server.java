@@ -14,12 +14,13 @@ import java.io.*;
  * to process the connection.
  */
 public class Server {
+
     private ServerSocket serverSocket;
     private Socket clientSocket;
     private PrintWriter out;
     private BufferedReader in;
 
-    public void start(int port) throws Exception {
+    /*public void start(int port) throws Exception {
         serverSocket = new ServerSocket(port);
         clientSocket = serverSocket.accept();
         out = new PrintWriter(clientSocket.getOutputStream(), true);
@@ -29,24 +30,29 @@ public class Server {
         while ((inputLine = in.readLine()) != null) {
             CustomerRequest request = CustomerRequest.fromJSON(inputLine);
             CustomerResponse response = new CustomerResponse(request.getId(), "Jane", "Doe");
-            out.println(CustomerResponse.toJSON(response));
-        }
-    }
+          out.println(CustomerResponse.toJSON(response));
+      }
+   }*/
 
-    public void stop() throws IOException {
-        in.close();
-        out.close();
-        clientSocket.close();
-        serverSocket.close();
-    }
+    //public void stop() throws IOException {
+       // in.close();
+        //out.close();
+        //clientSocket.close();
+        //serverSocket.close();
+   // }
 
     public static void main(String[] args) {
-        Server server = new Server();
+        /*Server server = new Server();
         try {
             server.start(4444);
             server.stop();
         } catch(Exception e) {
             e.printStackTrace();
-        }
+        }*/
+        //start here
+
+
     }
+
+
 } //end class Server
