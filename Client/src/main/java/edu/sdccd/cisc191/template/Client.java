@@ -12,13 +12,23 @@ import javafx.scene.text.Font;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 
+import java.util.LinkedList;
+
 public class Client extends Application {
     //instance variables
     private TextField textFieldCurrentNum;
     private TextField textFieldPendingNum;
     private Label labelAnswer;
+    private Label previousAnswer;
     private final Button[][] buttonStorage = new Button[3][3];
     private boolean isRunning = false;
+    private LinkedList calcHistory;
+    private int finalAnswer;
+    private int pendingNum;
+    private int currentNum;
+
+
+
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -29,9 +39,16 @@ public class Client extends Application {
         //create text fields
         textFieldCurrentNum = new TextField();
         textFieldPendingNum = new TextField();
+
         //create labels and set alignment
         labelAnswer = new Label("AnswerBox");
         labelAnswer.setAlignment(Pos.CENTER);
+        previousAnswer = new Label("Previous Answer");
+        previousAnswer.setAlignment(Pos.BOTTOM_RIGHT);
+        calcHistory = new LinkedList();
+
+        //set first/last value of linked list to no answers on start.
+        calcHistory.add("No previous answers");
 
         //fill buttons accordingly
         buttonStorage[0][0] = new Button("+");
@@ -40,6 +57,7 @@ public class Client extends Application {
         buttonStorage[1][1] = new Button("/");
         buttonStorage[2][1] = new Button("C");
         buttonStorage[2][0] = new Button("Q");
+
 
         //set font for buttons.
         Font buttonFont = new Font(15);
@@ -57,13 +75,9 @@ public class Client extends Application {
 
 
         // Create an HBox to hold the text fields and labels
-        HBox hBoxInput = new HBox(5, textFieldCurrentNum, textFieldPendingNum, labelAnswer);
+        HBox hBoxInput = new HBox(80, textFieldCurrentNum, textFieldPendingNum, labelAnswer, previousAnswer);
         hBoxInput.setPrefHeight(50);
         hBoxInput.setAlignment(Pos.BOTTOM_CENTER);
-
-//        HBox hBoxOutput = new HBox(5, labelAnswer);
-//        hBoxOutput.setPrefHeight(100);
-//        hBoxOutput.setAlignment(Pos.CENTER);
 
         // Create a BorderPane and add the input box and buttons to it
         BorderPane root = new BorderPane();
@@ -72,7 +86,7 @@ public class Client extends Application {
         root.setCenter(createButtonGrid());
 
         // Create the scene and set it on the stage
-        Scene scene = new Scene(root, 300, 150);
+        Scene scene = new Scene(root, 800, 300);
         stage.setScene(scene);
         stage.setTitle("Simple Integer Calculator");
         stage.show();
@@ -106,6 +120,37 @@ public class Client extends Application {
         return buttonPane;
     }
 
+    public Label getLblAnswer() {
+        return labelAnswer;
+    }
+
+    public void setLblAnswer(String str) {
+        labelAnswer.setText(str);
+    }
+
+    public Label getLblPrevAnswer() {
+        return previousAnswer;
+    }
+
+    public void setLblPrevAnswer(String str) {
+        previousAnswer.setText(str);
+    }
+
+    public int getPendingNum() {
+        return pendingNum;
+    }
+
+    public int getCurrentNum() {
+        return currentNum;
+    }
+
+    public void setTxtCurrentNum(String str) {
+        textFieldCurrentNum.setText(str);
+    }
+
+    public void setTxtPendingNum(String str) {
+        textFieldPendingNum.setText(str);
+    }
 
 
     // Define a handler for button clicks
@@ -114,9 +159,8 @@ public class Client extends Application {
         public void handle(ActionEvent event) {
             isRunning = true;
             //typecast to get the source of the button that was pressed
-            int finalAnswer;
-            int pendingNum;
-            int currentNum;
+
+
             //get text of the button (operator)
             //quit button
             if(event.getSource() == buttonStorage[2][0]) {
@@ -138,35 +182,52 @@ public class Client extends Application {
                 return;
             }
             //clear button
+
             if(event.getSource() == buttonStorage[2][1]) {
                 textFieldCurrentNum.setText("");
                 textFieldPendingNum.setText("");
                 labelAnswer.setText("AnswerBox");
+                previousAnswer.setText("" + calcHistory.getLast());
             }
             // addition button
             else if(event.getSource() == buttonStorage[0][0]) {
                 finalAnswer = currentNum + pendingNum;
                 labelAnswer.setText("" + finalAnswer);
+                previousAnswer.setText("" + calcHistory.getLast());
+                calcHistory.add("" + finalAnswer);
             }
             // subtract button
             else if(event.getSource() == buttonStorage[0][1]) {
                 finalAnswer = currentNum - pendingNum;
+                previousAnswer.setText("" + calcHistory.getLast());
                 labelAnswer.setText("" + finalAnswer);
+                calcHistory.add("" + finalAnswer);
             }
+
+            /*
+            if(event.getSource() == buttonStorage[0][1]) {
+                int answer = calc.add(currentNum, pendingNum)
+             */
             // multiply button
             else if(event.getSource() == buttonStorage[1][0]) {
                 finalAnswer = currentNum * pendingNum;
+                previousAnswer.setText("" + calcHistory.getLast());
                 labelAnswer.setText("" + finalAnswer);
+                calcHistory.add("" + finalAnswer);
+
             }
             // divide button
             else if(event.getSource() == buttonStorage[1][1]) {
                 //if its 0/0
                 if(pendingNum == 0) {
                     labelAnswer.setText("Undefined");
+                    calcHistory.add("Undefined");
                 }
                 else {
                     finalAnswer = currentNum / pendingNum;
+                    previousAnswer.setText("" + calcHistory.getLast());
                     labelAnswer.setText("" + finalAnswer);
+                    calcHistory.add("" + finalAnswer);
                 }
             }
 
@@ -179,11 +240,3 @@ public class Client extends Application {
 
     }
 }
-
-// end start();
-
-
-
-
-
-// end class HelloWorldFX
