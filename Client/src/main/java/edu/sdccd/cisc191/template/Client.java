@@ -57,7 +57,7 @@ public class Client extends Application {
         //calcHistory = new LinkedList();
 
         //set first/last value of linked list to no answers on start.
-        calcHistory.add("No previous answers");
+        calcHistory.add(calcHistory.getLast());
 
         //fill buttons accordingly
         buttonStorage[0][0] = new Button("+");
@@ -295,7 +295,6 @@ public class Client extends Application {
             }
        // }
         calcHistory = list;
-        System.out.println(list);
         return list;
     }
 
