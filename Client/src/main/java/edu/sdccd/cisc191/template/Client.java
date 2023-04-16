@@ -12,7 +12,10 @@ import javafx.scene.text.Font;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 
+import java.io.*;
 import java.util.LinkedList;
+import java.util.ListIterator;
+import java.util.Scanner;
 
 public class Client extends Application {
     //instance variables
@@ -22,7 +25,7 @@ public class Client extends Application {
     private Label previousAnswer;
     private final Button[][] buttonStorage = new Button[3][3];
     private boolean isRunning = false;
-    private LinkedList calcHistory;
+    private LinkedList calcHistory = new LinkedList();;
     private int finalAnswer;
     private int pendingNum;
     private int currentNum;
@@ -36,6 +39,11 @@ public class Client extends Application {
         if (isRunning) {
             throw new Exception("Rendering encountered an error. ");
         }
+        try {
+            readItems("output.txt");
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
         //create text fields
         textFieldCurrentNum = new TextField();
         textFieldPendingNum = new TextField();
@@ -44,8 +52,9 @@ public class Client extends Application {
         labelAnswer = new Label("AnswerBox");
         labelAnswer.setAlignment(Pos.CENTER);
         previousAnswer = new Label("Previous Answer");
+        previousAnswer.setText("" + calcHistory.getLast());
         previousAnswer.setAlignment(Pos.BOTTOM_RIGHT);
-        calcHistory = new LinkedList();
+        //calcHistory = new LinkedList();
 
         //set first/last value of linked list to no answers on start.
         calcHistory.add("No previous answers");
@@ -164,6 +173,7 @@ public class Client extends Application {
             //get text of the button (operator)
             //quit button
             if(event.getSource() == buttonStorage[2][0]) {
+               writeData();
                 Platform.exit();
                 isRunning = false;
             }
@@ -232,6 +242,61 @@ public class Client extends Application {
             }
 
         }
+    }
+
+ void writeData(){
+     String file_name = "output.txt";
+     try {
+
+         FileWriter fstream = new FileWriter(file_name);
+         BufferedWriter out = new BufferedWriter(fstream);
+
+         ListIterator itr = calcHistory.listIterator();
+         while (itr.hasNext()) {
+             String element = (String) itr.next();
+             out.write(element + "\n");
+         }
+
+         out.close();
+         System.out.println("File created successfully.");
+
+     } catch (Exception e) {
+     }
+ }
+    public  LinkedList<String> readItems(String fileName) throws IOException
+    {
+        File input = new File(fileName);
+        Scanner in = new Scanner(input);
+        String file = "";
+        int lines = 0;
+        BufferedReader br = new BufferedReader(new FileReader(fileName));
+        while (br.readLine() != null) {
+            lines++;
+        }
+
+        // Copy the contents from the file to a String
+//        while (in.hasNext())
+//        {
+//            file = in.next();
+//        }
+
+        // Create the list
+        LinkedList<String> list = new LinkedList<String>();
+        ListIterator<String> iter = list.listIterator();
+
+        // Copy the String contents to the Linked List
+//        while (iter.hasNext())
+//        {
+            for (int i=0; i<lines; i++)
+            {
+                System.out.println(input.length());
+                file = in.next();
+                list.add(file);
+            }
+       // }
+        calcHistory = list;
+        System.out.println(list);
+        return list;
     }
 
     public static void main (String[]args){
