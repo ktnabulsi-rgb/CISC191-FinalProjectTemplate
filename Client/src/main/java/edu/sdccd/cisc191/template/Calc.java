@@ -17,10 +17,9 @@ public class Calc {
     public int divide(int currentNum, int pendingNum) {
         Client client = new Client();
         int finalAnswer = 0;
-        if(pendingNum == 0) {
+        if (pendingNum == 0) {
             client.setLblAnswer("Undefined");
-        }
-        else {
+        } else {
             finalAnswer = currentNum / pendingNum;
         }
         return finalAnswer;

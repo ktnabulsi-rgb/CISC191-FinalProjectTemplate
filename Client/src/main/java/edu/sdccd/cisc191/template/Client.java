@@ -1,21 +1,22 @@
 package edu.sdccd.cisc191.template;
+
 import javafx.application.Application;
-import javafx.scene.Scene;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.*;
-import javafx.stage.Stage;
 import javafx.application.Platform;
-import javafx.geometry.Pos;
-import javafx.scene.control.Label;
-import javafx.scene.control.Button;
-import javafx.scene.text.Font;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.text.Font;
+import javafx.stage.Stage;
 
-import java.io.*;
+import java.io.FileNotFoundException;
 import java.util.LinkedList;
-import java.util.ListIterator;
-import java.util.Scanner;
 
 public class Client extends Application {
     //instance variables
@@ -25,7 +26,8 @@ public class Client extends Application {
     private Label previousAnswer;
     private final Button[][] buttonStorage = new Button[3][3];
     private boolean isRunning = false;
-    private LinkedList calcHistory = new LinkedList();;
+    private LinkedList calcHistory = new LinkedList();
+    ;
     private int finalAnswer;
     private int pendingNum;
     private int currentNum;
@@ -37,7 +39,7 @@ public class Client extends Application {
             throw new Exception("Rendering encountered an error. ");
         }
         try {
-           calcHistory = IOHelper.readItems("output.txt");
+            calcHistory = IOHelper.readItems("output.txt");
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
@@ -169,8 +171,8 @@ public class Client extends Application {
 
             //get text of the button (operator)
             //quit button
-            if(event.getSource() == buttonStorage[2][0]) {
-               IOHelper.writeData(calcHistory);
+            if (event.getSource() == buttonStorage[2][0]) {
+                IOHelper.writeData(calcHistory);
                 Platform.exit();
                 isRunning = false;
             }
@@ -179,8 +181,7 @@ public class Client extends Application {
                 //parse the user input from a String to int
                 currentNum = Integer.parseInt(textFieldCurrentNum.getText());
                 pendingNum = Integer.parseInt(textFieldPendingNum.getText());
-            }
-            catch(NumberFormatException nfe) {
+            } catch (NumberFormatException nfe) {
                 //if that fails, clear all text and print to console
                 textFieldCurrentNum.setText("");
                 textFieldPendingNum.setText("");
@@ -190,21 +191,21 @@ public class Client extends Application {
             }
             //clear button
 
-            if(event.getSource() == buttonStorage[2][1]) {
+            if (event.getSource() == buttonStorage[2][1]) {
                 textFieldCurrentNum.setText("");
                 textFieldPendingNum.setText("");
                 labelAnswer.setText("AnswerBox");
                 previousAnswer.setText("" + calcHistory.getLast());
             }
             // addition button
-            else if(event.getSource() == buttonStorage[0][0]) {
+            else if (event.getSource() == buttonStorage[0][0]) {
                 finalAnswer = currentNum + pendingNum;
                 labelAnswer.setText("" + finalAnswer);
                 previousAnswer.setText("" + calcHistory.getLast());
                 calcHistory.add("" + finalAnswer);
             }
             // subtract button
-            else if(event.getSource() == buttonStorage[0][1]) {
+            else if (event.getSource() == buttonStorage[0][1]) {
                 finalAnswer = currentNum - pendingNum;
                 previousAnswer.setText("" + calcHistory.getLast());
                 labelAnswer.setText("" + finalAnswer);
@@ -216,7 +217,7 @@ public class Client extends Application {
                 int answer = calc.add(currentNum, pendingNum)
              */
             // multiply button
-            else if(event.getSource() == buttonStorage[1][0]) {
+            else if (event.getSource() == buttonStorage[1][0]) {
                 finalAnswer = currentNum * pendingNum;
                 previousAnswer.setText("" + calcHistory.getLast());
                 labelAnswer.setText("" + finalAnswer);
@@ -224,13 +225,12 @@ public class Client extends Application {
 
             }
             // divide button
-            else if(event.getSource() == buttonStorage[1][1]) {
+            else if (event.getSource() == buttonStorage[1][1]) {
                 //if its 0/0
-                if(pendingNum == 0) {
+                if (pendingNum == 0) {
                     labelAnswer.setText("Undefined");
                     calcHistory.add("Undefined");
-                }
-                else {
+                } else {
                     finalAnswer = currentNum / pendingNum;
                     previousAnswer.setText("" + calcHistory.getLast());
                     labelAnswer.setText("" + finalAnswer);
@@ -241,7 +241,7 @@ public class Client extends Application {
         }
     }
 
-    public static void main (String[]args){
+    public static void main(String[] args) {
         //run code
         launch();  // Run this Application.
 

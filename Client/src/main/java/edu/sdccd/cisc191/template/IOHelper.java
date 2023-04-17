@@ -7,8 +7,7 @@ import java.util.Scanner;
 
 public class IOHelper {
 
-    public static LinkedList<String> readItems(String fileName) throws IOException
-    {
+    public static LinkedList<String> readItems(String fileName) throws IOException {
         File input = new File(fileName);
         Scanner in = new Scanner(input);
         BufferedReader br = new BufferedReader(new FileReader(fileName));
@@ -26,7 +25,7 @@ public class IOHelper {
         ListIterator<String> iter = list.listIterator();
 
         // Copy the file contents to the Linked List
-        for (int i=0; i<lines; i++) {
+        for (int i = 0; i < lines; i++) {
 
             System.out.println(input.length());
             file = in.next();
@@ -36,7 +35,7 @@ public class IOHelper {
         return list;
     }
 
-    static void writeData(LinkedList<String> calcHistory){
+    static void writeData(LinkedList<String> calcHistory) {
         String file_name = "output.txt";
         try {
 
