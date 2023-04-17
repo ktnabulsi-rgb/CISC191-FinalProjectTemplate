@@ -30,9 +30,6 @@ public class Client extends Application {
     private int pendingNum;
     private int currentNum;
 
-
-
-
     @Override
     public void start(Stage stage) throws Exception {
         //isRunning should not be true bcs we are still rendering
@@ -40,7 +37,7 @@ public class Client extends Application {
             throw new Exception("Rendering encountered an error. ");
         }
         try {
-            readItems("output.txt");
+           calcHistory = IOHelper.readItems("output.txt");
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
@@ -173,7 +170,7 @@ public class Client extends Application {
             //get text of the button (operator)
             //quit button
             if(event.getSource() == buttonStorage[2][0]) {
-               writeData();
+               IOHelper.writeData(calcHistory);
                 Platform.exit();
                 isRunning = false;
             }
@@ -242,60 +239,6 @@ public class Client extends Application {
             }
 
         }
-    }
-
- void writeData(){
-     String file_name = "output.txt";
-     try {
-
-         FileWriter fstream = new FileWriter(file_name);
-         BufferedWriter out = new BufferedWriter(fstream);
-
-         ListIterator itr = calcHistory.listIterator();
-         while (itr.hasNext()) {
-             String element = (String) itr.next();
-             out.write(element + "\n");
-         }
-
-         out.close();
-         System.out.println("File created successfully.");
-
-     } catch (Exception e) {
-     }
- }
-    public  LinkedList<String> readItems(String fileName) throws IOException
-    {
-        File input = new File(fileName);
-        Scanner in = new Scanner(input);
-        String file = "";
-        int lines = 0;
-        BufferedReader br = new BufferedReader(new FileReader(fileName));
-        while (br.readLine() != null) {
-            lines++;
-        }
-
-        // Copy the contents from the file to a String
-//        while (in.hasNext())
-//        {
-//            file = in.next();
-//        }
-
-        // Create the list
-        LinkedList<String> list = new LinkedList<String>();
-        ListIterator<String> iter = list.listIterator();
-
-        // Copy the String contents to the Linked List
-//        while (iter.hasNext())
-//        {
-            for (int i=0; i<lines; i++)
-            {
-                System.out.println(input.length());
-                file = in.next();
-                list.add(file);
-            }
-       // }
-        calcHistory = list;
-        return list;
     }
 
     public static void main (String[]args){
