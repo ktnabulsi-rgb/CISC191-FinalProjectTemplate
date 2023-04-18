@@ -2,7 +2,6 @@ package edu.sdccd.cisc191.template;
 
 import java.io.*;
 import java.util.LinkedList;
-import java.util.ListIterator;
 import java.util.Scanner;
 
 public class IOHelper {
@@ -21,8 +20,7 @@ public class IOHelper {
         }
 
         // Create the list
-        LinkedList<String> list = new LinkedList<String>();
-        ListIterator<String> iter = list.listIterator();
+        LinkedList<String> list = new LinkedList<>();
 
         // Copy the file contents to the Linked List
         for (int i = 0; i < lines; i++) {
@@ -39,19 +37,17 @@ public class IOHelper {
         String file_name = "output.txt";
         try {
 
-            FileWriter fstream = new FileWriter(file_name);
-            BufferedWriter out = new BufferedWriter(fstream);
+            FileWriter fileStream = new FileWriter(file_name);
+            BufferedWriter out = new BufferedWriter(fileStream);
 
-            ListIterator itr = calcHistory.listIterator();
-            while (itr.hasNext()) {
-                String element = (String) itr.next();
+            for (String element : calcHistory) {
                 out.write(element + "\n");
             }
 
             out.close();
             System.out.println("File created successfully.");
 
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
     }
 }
