@@ -27,14 +27,12 @@ public class Client extends Application {
     private final Button[][] buttonStorage = new Button[3][3];
     private boolean isRunning = false;
     private LinkedList<String> calcHistory = new LinkedList<>();
-    private int pendingNum;
-    private int currentNum;
 
 
     public GridPane createButtonGrid() {
 
         isRunning = true;
-        //make a new gridpane object
+        //make a new grid pane object
         GridPane buttonPane = new GridPane();
         //set vertical/horizontal gap
         buttonPane.setHgap(0);
@@ -46,7 +44,7 @@ public class Client extends Application {
         for (int r = 0; r < buttonStorage.length; r++) {
             for (int c = 0; c < buttonStorage[r].length; c++) {
                 Button button = buttonStorage[r][c];
-                //if buttons are not null, then add to gridpane
+                //if buttons are not null, then add to grid pane
                 if (button != null) {
                     //set action handler for each button while creating a button logic object to handle logic for each action
                     button.setOnAction(new ButtonLogic());
@@ -74,6 +72,8 @@ public class Client extends Application {
                 isRunning = false;
             }
             //if num is too big (over 9 places) print to console
+            int pendingNum;
+            int currentNum;
             try {
                 //parse the user input from a String to int
                 currentNum = Integer.parseInt(textFieldCurrentNum.getText());
@@ -139,28 +139,8 @@ public class Client extends Application {
         }
     }
 
-    public Label getLblAnswer() {
-        return labelAnswer;
-    }
-
     public void setLblAnswer(String str) {
         labelAnswer.setText(str);
-    }
-
-    public Label getLblPrevAnswer() {
-        return previousAnswer;
-    }
-
-    public void setLblPrevAnswer(String str) {
-        previousAnswer.setText(str);
-    }
-
-    public int getPendingNum() {
-        return pendingNum;
-    }
-
-    public int getCurrentNum() {
-        return currentNum;
     }
 
     public void setTxtCurrentNum(String str) {
@@ -169,8 +149,6 @@ public class Client extends Application {
     public void setTxtPendingNum(String str) {
         textFieldPendingNum.setText(str);
     }
-
-
     // Define a handler for button clicks
 
     @Override
