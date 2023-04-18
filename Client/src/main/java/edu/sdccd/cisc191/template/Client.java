@@ -26,11 +26,152 @@ public class Client extends Application {
     private Label previousAnswer;
     private final Button[][] buttonStorage = new Button[3][3];
     private boolean isRunning = false;
-    private LinkedList calcHistory = new LinkedList();
-    ;
-    private int finalAnswer;
+    private LinkedList<String> calcHistory = new LinkedList<>();
     private int pendingNum;
     private int currentNum;
+
+
+    public GridPane createButtonGrid() {
+
+        isRunning = true;
+        //make a new gridpane object
+        GridPane buttonPane = new GridPane();
+        //set vertical/horizontal gap
+        buttonPane.setHgap(0);
+        buttonPane.setVgap(0);
+        //set alignment
+        buttonPane.setAlignment(Pos.BOTTOM_CENTER);
+
+        // Create a grid of buttons and add them to the buttonPane
+        for (int r = 0; r < buttonStorage.length; r++) {
+            for (int c = 0; c < buttonStorage[r].length; c++) {
+                Button button = buttonStorage[r][c];
+                //if buttons are not null, then add to gridpane
+                if (button != null) {
+                    //set action handler for each button while creating a button logic object to handle logic for each action
+                    button.setOnAction(new ButtonLogic());
+                    buttonPane.add(button, c, r);
+                }
+            }
+        }
+
+        return buttonPane;
+    }
+
+    public class ButtonLogic implements EventHandler<ActionEvent> {
+
+        @Override
+        public void handle(ActionEvent event) {
+            isRunning = true;
+            //typecast to get the source of the button that was pressed
+
+
+            //get text of the button (operator)
+            //quit button
+            if (event.getSource() == buttonStorage[2][0]) {
+                IOHelper.writeData(calcHistory);
+                Platform.exit();
+                isRunning = false;
+            }
+            //if num is too big (over 9 places) print to console
+            try {
+                //parse the user input from a String to int
+                currentNum = Integer.parseInt(textFieldCurrentNum.getText());
+                pendingNum = Integer.parseInt(textFieldPendingNum.getText());
+            } catch (NumberFormatException nfe) {
+                //if that fails, clear all text and print to console
+                textFieldCurrentNum.setText("");
+                textFieldPendingNum.setText("");
+                labelAnswer.setText("Too Large To Compute");
+                nfe.printStackTrace();
+                return;
+            }
+            //clear button
+
+            int finalAnswer;
+            if (event.getSource() == buttonStorage[2][1]) {
+                textFieldCurrentNum.setText("");
+                textFieldPendingNum.setText("");
+                labelAnswer.setText("AnswerBox");
+                previousAnswer.setText(calcHistory.getLast());
+            }
+            // addition button
+            else if (event.getSource() == buttonStorage[0][0]) {
+                finalAnswer = currentNum + pendingNum;
+                labelAnswer.setText(String.valueOf(finalAnswer));
+                previousAnswer.setText(calcHistory.getLast());
+                calcHistory.add(String.valueOf(finalAnswer));
+            }
+            // subtract button
+            else if (event.getSource() == buttonStorage[0][1]) {
+                finalAnswer = currentNum - pendingNum;
+                previousAnswer.setText(calcHistory.getLast());
+                labelAnswer.setText(String.valueOf(finalAnswer));
+                calcHistory.add(String.valueOf(finalAnswer));
+            }
+
+            /*
+            if(event.getSource() == buttonStorage[0][1]) {
+                int answer = calc.add(currentNum, pendingNum)
+             */
+            // multiply button
+            else if (event.getSource() == buttonStorage[1][0]) {
+                finalAnswer = currentNum * pendingNum;
+                previousAnswer.setText(calcHistory.getLast());
+                labelAnswer.setText(String.valueOf(finalAnswer));
+                calcHistory.add(String.valueOf(finalAnswer));
+
+            }
+            // divide button
+            else if (event.getSource() == buttonStorage[1][1]) {
+                //if its 0/0
+                if (pendingNum == 0) {
+                    labelAnswer.setText("Undefined");
+                    calcHistory.add("Undefined");
+                } else {
+                    finalAnswer = currentNum / pendingNum;
+                    previousAnswer.setText(calcHistory.getLast());
+                    labelAnswer.setText(String.valueOf(finalAnswer));
+                    calcHistory.add(String.valueOf(finalAnswer));
+                }
+            }
+
+        }
+    }
+
+    public Label getLblAnswer() {
+        return labelAnswer;
+    }
+
+    public void setLblAnswer(String str) {
+        labelAnswer.setText(str);
+    }
+
+    public Label getLblPrevAnswer() {
+        return previousAnswer;
+    }
+
+    public void setLblPrevAnswer(String str) {
+        previousAnswer.setText(str);
+    }
+
+    public int getPendingNum() {
+        return pendingNum;
+    }
+
+    public int getCurrentNum() {
+        return currentNum;
+    }
+
+    public void setTxtCurrentNum(String str) {
+        textFieldCurrentNum.setText(str);
+    }
+    public void setTxtPendingNum(String str) {
+        textFieldPendingNum.setText(str);
+    }
+
+
+    // Define a handler for button clicks
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -51,7 +192,7 @@ public class Client extends Application {
         labelAnswer = new Label("AnswerBox");
         labelAnswer.setAlignment(Pos.CENTER);
         previousAnswer = new Label("Previous Answer");
-        previousAnswer.setText("" + calcHistory.getLast());
+        previousAnswer.setText(calcHistory.getLast());
         previousAnswer.setAlignment(Pos.BOTTOM_RIGHT);
         //calcHistory = new LinkedList();
 
@@ -102,148 +243,8 @@ public class Client extends Application {
 
     }
 
-    public GridPane createButtonGrid() {
-        isRunning = true;
-        //make a new gridpane object
-        GridPane buttonPane = new GridPane();
-        //set vertical/horizontal gap
-        buttonPane.setHgap(0);
-        buttonPane.setVgap(0);
-        //set alignment
-        buttonPane.setAlignment(Pos.BOTTOM_CENTER);
-
-        // Create a grid of buttons and add them to the buttonPane
-        for (int r = 0; r < buttonStorage.length; r++) {
-            for (int c = 0; c < buttonStorage[r].length; c++) {
-                Button button = buttonStorage[r][c];
-                //if buttons are not null, then add to gridpane
-                if (button != null) {
-                    //set action handler for each button while creating a button logic object to handle logic for each action
-                    button.setOnAction(new ButtonLogic());
-                    buttonPane.add(button, c, r);
-                }
-            }
-        }
-
-        return buttonPane;
-    }
-
-    public Label getLblAnswer() {
-        return labelAnswer;
-    }
-
-    public void setLblAnswer(String str) {
-        labelAnswer.setText(str);
-    }
-
-    public Label getLblPrevAnswer() {
-        return previousAnswer;
-    }
-
-    public void setLblPrevAnswer(String str) {
-        previousAnswer.setText(str);
-    }
-
-    public int getPendingNum() {
-        return pendingNum;
-    }
-
-    public int getCurrentNum() {
-        return currentNum;
-    }
-
-    public void setTxtCurrentNum(String str) {
-        textFieldCurrentNum.setText(str);
-    }
-
-    public void setTxtPendingNum(String str) {
-        textFieldPendingNum.setText(str);
-    }
-
-
-    // Define a handler for button clicks
-    public class ButtonLogic implements EventHandler<ActionEvent> {
-        @Override
-        public void handle(ActionEvent event) {
-            isRunning = true;
-            //typecast to get the source of the button that was pressed
-
-
-            //get text of the button (operator)
-            //quit button
-            if (event.getSource() == buttonStorage[2][0]) {
-                IOHelper.writeData(calcHistory);
-                Platform.exit();
-                isRunning = false;
-            }
-            //if num is too big (over 9 places) print to console
-            try {
-                //parse the user input from a String to int
-                currentNum = Integer.parseInt(textFieldCurrentNum.getText());
-                pendingNum = Integer.parseInt(textFieldPendingNum.getText());
-            } catch (NumberFormatException nfe) {
-                //if that fails, clear all text and print to console
-                textFieldCurrentNum.setText("");
-                textFieldPendingNum.setText("");
-                labelAnswer.setText("Too Large To Compute");
-                nfe.printStackTrace();
-                return;
-            }
-            //clear button
-
-            if (event.getSource() == buttonStorage[2][1]) {
-                textFieldCurrentNum.setText("");
-                textFieldPendingNum.setText("");
-                labelAnswer.setText("AnswerBox");
-                previousAnswer.setText("" + calcHistory.getLast());
-            }
-            // addition button
-            else if (event.getSource() == buttonStorage[0][0]) {
-                finalAnswer = currentNum + pendingNum;
-                labelAnswer.setText("" + finalAnswer);
-                previousAnswer.setText("" + calcHistory.getLast());
-                calcHistory.add("" + finalAnswer);
-            }
-            // subtract button
-            else if (event.getSource() == buttonStorage[0][1]) {
-                finalAnswer = currentNum - pendingNum;
-                previousAnswer.setText("" + calcHistory.getLast());
-                labelAnswer.setText("" + finalAnswer);
-                calcHistory.add("" + finalAnswer);
-            }
-
-            /*
-            if(event.getSource() == buttonStorage[0][1]) {
-                int answer = calc.add(currentNum, pendingNum)
-             */
-            // multiply button
-            else if (event.getSource() == buttonStorage[1][0]) {
-                finalAnswer = currentNum * pendingNum;
-                previousAnswer.setText("" + calcHistory.getLast());
-                labelAnswer.setText("" + finalAnswer);
-                calcHistory.add("" + finalAnswer);
-
-            }
-            // divide button
-            else if (event.getSource() == buttonStorage[1][1]) {
-                //if its 0/0
-                if (pendingNum == 0) {
-                    labelAnswer.setText("Undefined");
-                    calcHistory.add("Undefined");
-                } else {
-                    finalAnswer = currentNum / pendingNum;
-                    previousAnswer.setText("" + calcHistory.getLast());
-                    labelAnswer.setText("" + finalAnswer);
-                    calcHistory.add("" + finalAnswer);
-                }
-            }
-
-        }
-    }
-
     public static void main(String[] args) {
         //run code
-        launch();  // Run this Application.
-
+        launch();
     }
 }
