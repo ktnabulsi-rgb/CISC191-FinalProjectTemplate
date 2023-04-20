@@ -166,6 +166,7 @@ public class Client extends Application {
         @Override
         public void handle(ActionEvent event) {
             isRunning = true;
+            Calculator calc = new Calculator();
 
             //typecast to get the source of the button that was pressed
 
@@ -200,59 +201,30 @@ public class Client extends Application {
             }
             // addition button
             else if(event.getSource() == buttonStorage[0][0]) {
-                finalAnswer = currentNum + pendingNum;
+                finalAnswer = calc.add(currentNum,pendingNum);
+
                 labelAnswer.setText("" + finalAnswer);
                 previousAnswer.setText("" + calcHistory.getLast());
                 calcHistory.add("" + finalAnswer);
-                if(calcHistory.size() > 2) {
-                    String previousNum = (String) calcHistory.get(calcHistory.size() - 2);
-                    int previousNumInt = Integer.parseInt(previousNum);
-                    if (finalAnswer > previousNumInt) {
-                        maximumAnswer.setText("" + finalAnswer);
-                    }
-                    if (finalAnswer < previousNumInt){
-                        minimumAnswer.setText("" + finalAnswer);
-                    }
-                }
+
+
             }
             // subtract button
             else if(event.getSource() == buttonStorage[0][1]) {
-                finalAnswer = currentNum - pendingNum;
-                previousAnswer.setText("" + calcHistory.getLast());
-                labelAnswer.setText("" + finalAnswer);
-                calcHistory.add("" + finalAnswer);
-                if(calcHistory.size() > 2) {
-                    String previousNum = (String) calcHistory.get(calcHistory.size() - 2);
-                    int previousNumInt = Integer.parseInt(previousNum);
-                    if (finalAnswer > previousNumInt) {
-                        maximumAnswer.setText("" + finalAnswer);
-                    }
-                    if (finalAnswer < previousNumInt){
-                        minimumAnswer.setText("" + finalAnswer);
-                    }
-                }
-            }
+                finalAnswer = calc.subtract(currentNum, pendingNum);
 
-            /*
-            if(event.getSource() == buttonStorage[0][1]) {
-                int answer = calc.add(currentNum, pendingNum)
-             */
-            // multiply button
+                labelAnswer.setText("" + finalAnswer);
+                previousAnswer.setText("" + calcHistory.getLast());
+                calcHistory.add("" + finalAnswer);
+
+            }
+            //multiply button
             else if(event.getSource() == buttonStorage[1][0]) {
-                finalAnswer = currentNum * pendingNum;
+                finalAnswer = calc.multiply(currentNum, pendingNum);
+                
                 previousAnswer.setText("" + calcHistory.getLast());
                 labelAnswer.setText("" + finalAnswer);
                 calcHistory.add("" + finalAnswer);
-                if(calcHistory.size() > 2) {
-                    String previousNum = (String) calcHistory.get(calcHistory.size() - 2);
-                    int previousNumInt = Integer.parseInt(previousNum);
-                    if (finalAnswer > previousNumInt) {
-                        maximumAnswer.setText("" + finalAnswer);
-                    }
-                    if (finalAnswer < previousNumInt){
-                        minimumAnswer.setText("" + finalAnswer);
-                    }
-                }
 
             }
             // divide button
