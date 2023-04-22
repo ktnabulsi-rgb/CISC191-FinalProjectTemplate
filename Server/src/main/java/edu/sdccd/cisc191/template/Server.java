@@ -2,6 +2,7 @@ package edu.sdccd.cisc191.template;
 
 import java.net.*;
 import java.io.*;
+import java.util.LinkedList;
 
 /**
  * This program is a server that takes connection requests on
@@ -19,6 +20,8 @@ public class Server {
     private Socket clientSocket;
     private PrintWriter out;
     private BufferedReader in;
+
+
 
     /*public void start(int port) throws Exception {
         serverSocket = new ServerSocket(port);
@@ -41,7 +44,7 @@ public class Server {
         //serverSocket.close();
    // }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException{
         /*Server server = new Server();
         try {
             server.start(4444);
@@ -51,6 +54,52 @@ public class Server {
         }*/
         //start here
 
+        LinkedList<String> calcHistory = new LinkedList<>();
+
+        try {
+            calcHistory = IOHelper.readItems("output.txt");
+
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
+        ServerSocket ss = new ServerSocket(4999);
+
+        Socket s = ss.accept();
+        PrintWriter out = new PrintWriter(s.getOutputStream(), true);
+
+        System.out.println("client connected");
+
+
+        InputStreamReader in = new InputStreamReader(s.getInputStream());
+        BufferedReader bf = new BufferedReader(in);
+        String inputLine;
+
+        while ((inputLine = bf.readLine()) != null) {
+
+            if (inputLine.equals(HistoryRequest.HR)) {
+                System.out.println("client : " + inputLine);
+                for(int i = 0; i < calcHistory.size(); i++) {
+                    //use println instead of write so client can read off of start
+                    out.println(calcHistory.get(i));
+                }
+            }
+//            else if() {
+//                //TODO - create and handle history saved request
+//            }
+
+        }
+
+
+
+
+
+
+
+
+
+        //InetAddress inetAddress = ss.getInetAddress();
+        //System.out.println(inetAddress);
 
     }
 

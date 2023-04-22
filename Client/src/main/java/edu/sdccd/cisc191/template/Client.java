@@ -15,8 +15,14 @@ import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
-import java.io.FileNotFoundException;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.Socket;
 import java.util.LinkedList;
+import java.util.NoSuchElementException;
+
 
 public class Client extends Application {
     //instance variables
@@ -62,14 +68,14 @@ public class Client extends Application {
         public void handle(ActionEvent event) {
             isRunning = true;
             Calculator calc = new Calculator();
-
-            //typecast to get the source of the button that was pressed
-
+            //TODO make new calchistory object and use that inside if statements
 
             //get text of the button (operator)
             //quit button
             if (event.getSource() == buttonStorage[2][0]) {
-                IOHelper.writeData(calcHistory);
+                //TODO - send history to server before platforrm exits
+
+                //IOHelper.writeData(calcHistory);
                 isRunning = false;
                 Platform.exit();
             }
@@ -105,6 +111,16 @@ public class Client extends Application {
                 previousAnswer.setText(calcHistory.getLast());
                 calcHistory.add(String.valueOf(finalAnswer));
 
+                if (calcHistory.size() > 2) {
+                    String previousNum = calcHistory.get(calcHistory.size() - 2);
+                    int previousNumInt = Integer.parseInt(previousNum);
+                    if (finalAnswer > previousNumInt) {
+                        maximumAnswer.setText(String.valueOf(finalAnswer));
+                    }
+                    if (finalAnswer < previousNumInt) {
+                        minimumAnswer.setText(String.valueOf(finalAnswer));
+                    }
+                }
 
             }
             // subtract button
@@ -115,6 +131,17 @@ public class Client extends Application {
                 previousAnswer.setText(calcHistory.getLast());
                 calcHistory.add(String.valueOf(finalAnswer));
 
+                if (calcHistory.size() > 2) {
+                    String previousNum = calcHistory.get(calcHistory.size() - 2);
+                    int previousNumInt = Integer.parseInt(previousNum);
+                    if (finalAnswer > previousNumInt) {
+                        maximumAnswer.setText(String.valueOf(finalAnswer));
+                    }
+                    if (finalAnswer < previousNumInt) {
+                        minimumAnswer.setText(String.valueOf(finalAnswer));
+                    }
+                }
+
             }
             //multiply button
             else if (event.getSource() == buttonStorage[1][0]) {
@@ -123,6 +150,17 @@ public class Client extends Application {
                 previousAnswer.setText(calcHistory.getLast());
                 labelAnswer.setText(String.valueOf(finalAnswer));
                 calcHistory.add(String.valueOf(finalAnswer));
+
+                if (calcHistory.size() > 2) {
+                    String previousNum = calcHistory.get(calcHistory.size() - 2);
+                    int previousNumInt = Integer.parseInt(previousNum);
+                    if (finalAnswer > previousNumInt) {
+                        maximumAnswer.setText(String.valueOf(finalAnswer));
+                    }
+                    if (finalAnswer < previousNumInt) {
+                        minimumAnswer.setText(String.valueOf(finalAnswer));
+                    }
+                }
 
             }
             // divide button
@@ -159,11 +197,6 @@ public class Client extends Application {
             throw new Exception("Rendering encountered an error. ");
         }
 
-        try {
-            calcHistory = IOHelper.readItems("output.txt");
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        }
 
         //create text fields
         textFieldCurrentNum = new TextField();
@@ -174,7 +207,6 @@ public class Client extends Application {
         maximumAnswer = new Label("MaximumAnswer");
         maximumAnswer.setAlignment(Pos.CENTER);
 
-
         //create labels and set alignment
         labelAnswer = new Label("AnswerBox");
         labelAnswer.setAlignment(Pos.CENTER);
@@ -182,7 +214,12 @@ public class Client extends Application {
         previousAnswer.setAlignment(Pos.BOTTOM_RIGHT);
 
         //set first/last value of linked list to no answers on start.
-        previousAnswer.setText(calcHistory.getLast());
+        try {
+            previousAnswer.setText(calcHistory.getLast());
+        }
+        catch (NoSuchElementException nsee) {
+            System.out.println("No existing history");
+        }
 
         //fill buttons accordingly
         buttonStorage[0][0] = new Button("+");
@@ -228,8 +265,22 @@ public class Client extends Application {
 
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
+        Socket s = new Socket("localhost", 4999);
+        PrintWriter pr = new PrintWriter((s.getOutputStream()), true);
+        pr.println(HistoryRequest.HR);
+        BufferedReader bf = new BufferedReader(new InputStreamReader(s.getInputStream()));
+        String read;
+
+        while((read = bf.readLine()) != null) {
+            System.out.println(read);
+            System.out.println("Read Successful");
+        }
+
+        //TODO Process response into calchistory
+        //TODO On exit send history to server for persistance
+
         //run code
-        launch();
+        //launch();
     }
 }

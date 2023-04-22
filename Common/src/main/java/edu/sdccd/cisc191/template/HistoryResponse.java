@@ -3,22 +3,22 @@ package edu.sdccd.cisc191.template;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class CustomerResponse {
+public class HistoryResponse {
     private Integer id;
     private String firstName;
     private String lastName;
 
     @JsonIgnore
     private static final ObjectMapper objectMapper = new ObjectMapper();
-    public static String toJSON(CustomerResponse customer) throws Exception {
+    public static String toJSON(HistoryResponse customer) throws Exception {
         return objectMapper.writeValueAsString(customer);
     }
-    public static CustomerResponse fromJSON(String input) throws Exception{
-        return objectMapper.readValue(input, CustomerResponse.class);
+    public static HistoryResponse fromJSON(String input) throws Exception{
+        return objectMapper.readValue(input, HistoryResponse.class);
     }
-    protected CustomerResponse() {}
+    protected HistoryResponse() {}
 
-    public CustomerResponse(Integer id, String firstName, String lastName) {
+    public HistoryResponse(Integer id, String firstName, String lastName) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
