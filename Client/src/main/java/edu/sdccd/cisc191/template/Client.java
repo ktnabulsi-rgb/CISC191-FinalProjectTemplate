@@ -74,11 +74,14 @@ public class Client extends Application {
             //quit button
             if (event.getSource() == buttonStorage[2][0]) {
                 //TODO - send history to server before platforrm exits
-
                 //IOHelper.writeData(calcHistory);
+                Client client = new Client();
+                client.sendSaveHistoryRequest();
                 isRunning = false;
                 Platform.exit();
             }
+
+
             //if num is too big (over 9 places) print to console
             int pendingNum;
             int currentNum;
@@ -265,6 +268,18 @@ public class Client extends Application {
 
     }
 
+    public void sendSaveHistoryRequest() {
+        try {
+            Socket socket = new Socket("localhost", 4999);
+            PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+            out.println("Save History Request");
+            out.close();
+            socket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static void main(String[] args) throws IOException {
         Socket s = new Socket("localhost", 4999);
         PrintWriter pr = new PrintWriter((s.getOutputStream()), true);
@@ -283,4 +298,7 @@ public class Client extends Application {
         //run code
         //launch();
     }
+
+
+
 }
