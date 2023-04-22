@@ -34,7 +34,7 @@ public class Client extends Application {
     private Label minimumAnswer;
     private final Button[][] buttonStorage = new Button[3][3];
     private boolean isRunning = false;
-    private LinkedList<String> calcHistory = new LinkedList<>();
+    private static LinkedList<String> calcHistory = new LinkedList<>();
 
     public GridPane createButtonGrid() {
         isRunning = true;
@@ -272,15 +272,17 @@ public class Client extends Application {
         BufferedReader bf = new BufferedReader(new InputStreamReader(s.getInputStream()));
         String read;
 
+
         while((read = bf.readLine()) != null) {
             System.out.println(read);
             System.out.println("Read Successful");
+            calcHistory.add(read);
         }
 
-        //TODO Process response into calchistory
+        launch();
+
         //TODO On exit send history to server for persistance
 
         //run code
-        //launch();
     }
 }
