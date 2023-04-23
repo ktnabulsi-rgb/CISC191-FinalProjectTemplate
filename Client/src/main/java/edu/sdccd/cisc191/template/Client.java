@@ -26,6 +26,8 @@ public class Client extends Application {
     private Label previousAnswer;
     private Label maximumAnswer;
     private Label minimumAnswer;
+    private int minValue = Integer.MIN_VALUE;
+    private int maxValue = Integer.MAX_VALUE;
     private final Button[][] buttonStorage = new Button[3][3];
     private boolean isRunning = false;
     private LinkedList<String> calcHistory = new LinkedList<>();
@@ -106,15 +108,13 @@ public class Client extends Application {
                 previousAnswer.setText(calcHistory.getLast());
                 calcHistory.add(String.valueOf(finalAnswer));
 
-                if (calcHistory.size() > 2) {
-                    String previousNum = calcHistory.get(calcHistory.size() - 2);
-                    int previousNumInt = Integer.parseInt(previousNum);
-                    if (finalAnswer > previousNumInt) {
-                        maximumAnswer.setText(String.valueOf(finalAnswer));
-                    }
-                    if (finalAnswer < previousNumInt) {
-                        minimumAnswer.setText(String.valueOf(finalAnswer));
-                    }
+                if (finalAnswer > maxValue) {
+                    maxValue = finalAnswer;
+                    maximumAnswer.setText(String.valueOf(finalAnswer));
+                }
+                if (finalAnswer < minValue) {
+                    minValue = finalAnswer;
+                    minimumAnswer.setText(String.valueOf(finalAnswer));
                 }
 
 
@@ -127,15 +127,13 @@ public class Client extends Application {
                 previousAnswer.setText(calcHistory.getLast());
                 calcHistory.add(String.valueOf(finalAnswer));
 
-                if (calcHistory.size() > 2) {
-                    String previousNum = calcHistory.get(calcHistory.size() - 2);
-                    int previousNumInt = Integer.parseInt(previousNum);
-                    if (finalAnswer > previousNumInt) {
-                        maximumAnswer.setText(String.valueOf(finalAnswer));
-                    }
-                    if (finalAnswer < previousNumInt) {
-                        minimumAnswer.setText(String.valueOf(finalAnswer));
-                    }
+                if (finalAnswer > maxValue) {
+                    maxValue = finalAnswer;
+                    maximumAnswer.setText(String.valueOf(finalAnswer));
+                }
+                if (finalAnswer < minValue) {
+                    minValue = finalAnswer;
+                    minimumAnswer.setText(String.valueOf(finalAnswer));
                 }
 
             }
@@ -147,15 +145,13 @@ public class Client extends Application {
                 labelAnswer.setText(String.valueOf(finalAnswer));
                 calcHistory.add(String.valueOf(finalAnswer));
 
-                if (calcHistory.size() > 2) {
-                    String previousNum = calcHistory.get(calcHistory.size() - 2);
-                    int previousNumInt = Integer.parseInt(previousNum);
-                    if (finalAnswer > previousNumInt) {
-                        maximumAnswer.setText(String.valueOf(finalAnswer));
-                    }
-                    if (finalAnswer < previousNumInt) {
-                        minimumAnswer.setText(String.valueOf(finalAnswer));
-                    }
+                if (finalAnswer > maxValue) {
+                    maxValue = finalAnswer;
+                    maximumAnswer.setText(String.valueOf(finalAnswer));
+                }
+                if (finalAnswer < minValue) {
+                    minValue = finalAnswer;
+                    minimumAnswer.setText(String.valueOf(finalAnswer));
                 }
 
             }
@@ -170,16 +166,15 @@ public class Client extends Application {
                     previousAnswer.setText(calcHistory.getLast());
                     labelAnswer.setText(String.valueOf(finalAnswer));
                     calcHistory.add(String.valueOf(finalAnswer));
-                    if (calcHistory.size() > 2) {
-                        String previousNum = calcHistory.get(calcHistory.size() - 2);
-                        int previousNumInt = Integer.parseInt(previousNum);
-                        if (finalAnswer > previousNumInt) {
-                            maximumAnswer.setText(String.valueOf(finalAnswer));
-                        }
-                        if (finalAnswer < previousNumInt) {
-                            minimumAnswer.setText(String.valueOf(finalAnswer));
-                        }
+                    if (finalAnswer > maxValue) {
+                        maxValue = finalAnswer;
+                        maximumAnswer.setText(String.valueOf(finalAnswer));
                     }
+                    if (finalAnswer < minValue) {
+                        minValue = finalAnswer;
+                        minimumAnswer.setText(String.valueOf(finalAnswer));
+                    }
+
                 }
             }
 
