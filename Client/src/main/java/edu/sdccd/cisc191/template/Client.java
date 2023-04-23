@@ -102,6 +102,7 @@ public class Client extends Application {
             }
             // addition button
             else if (event.getSource() == buttonStorage[0][0]) {
+                //call add method from Calculator class
                 finalAnswer = calc.add(currentNum, pendingNum);
 
                 labelAnswer.setText(String.valueOf(finalAnswer));
