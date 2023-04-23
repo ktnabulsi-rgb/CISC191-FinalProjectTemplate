@@ -90,11 +90,13 @@ public class Client extends Application {
             }
             //clear button
 
-            int finalAnswer;
+            int finalAnswer; //create final answer variable
             if (event.getSource() == buttonStorage[2][1]) {
+                //set text to empty for clear
                 textFieldCurrentNum.setText("");
                 textFieldPendingNum.setText("");
                 labelAnswer.setText("AnswerBox");
+                //get the last value from list and set it as previous value
                 previousAnswer.setText(calcHistory.getLast());
 
             }
@@ -106,13 +108,20 @@ public class Client extends Application {
                 previousAnswer.setText(calcHistory.getLast());
                 calcHistory.add(String.valueOf(finalAnswer));
 
+                //if list has more than 2 values to work with
                 if (calcHistory.size() > 2) {
+                    //get previous sum
                     String previousNum = calcHistory.get(calcHistory.size() - 2);
+                    //parse into int so we can add it to calchistory linked list
                     int previousNumInt = Integer.parseInt(previousNum);
+                    //check for max value
                     if (finalAnswer > previousNumInt) {
+                        //set text label
                         maximumAnswer.setText(String.valueOf(finalAnswer));
                     }
+                    //check for min value
                     if (finalAnswer < previousNumInt) {
+                        //set text label
                         minimumAnswer.setText(String.valueOf(finalAnswer));
                     }
                 }
@@ -165,7 +174,8 @@ public class Client extends Application {
                 if (pendingNum == 0) {
                     labelAnswer.setText("Undefined");
                     calcHistory.add("Undefined");
-                } else {
+                }
+                else {
                     finalAnswer = currentNum / pendingNum;
                     previousAnswer.setText(calcHistory.getLast());
                     labelAnswer.setText(String.valueOf(finalAnswer));
