@@ -96,6 +96,7 @@ public class Client extends Application {
                 textFieldPendingNum.setText("");
                 labelAnswer.setText("AnswerBox");
                 previousAnswer.setText(calcHistory.getLast());
+
             }
             // addition button
             else if (event.getSource() == buttonStorage[0][0]) {
@@ -104,6 +105,17 @@ public class Client extends Application {
                 labelAnswer.setText(String.valueOf(finalAnswer));
                 previousAnswer.setText(calcHistory.getLast());
                 calcHistory.add(String.valueOf(finalAnswer));
+
+                if (calcHistory.size() > 2) {
+                    String previousNum = calcHistory.get(calcHistory.size() - 2);
+                    int previousNumInt = Integer.parseInt(previousNum);
+                    if (finalAnswer > previousNumInt) {
+                        maximumAnswer.setText(String.valueOf(finalAnswer));
+                    }
+                    if (finalAnswer < previousNumInt) {
+                        minimumAnswer.setText(String.valueOf(finalAnswer));
+                    }
+                }
 
 
             }
@@ -115,6 +127,17 @@ public class Client extends Application {
                 previousAnswer.setText(calcHistory.getLast());
                 calcHistory.add(String.valueOf(finalAnswer));
 
+                if (calcHistory.size() > 2) {
+                    String previousNum = calcHistory.get(calcHistory.size() - 2);
+                    int previousNumInt = Integer.parseInt(previousNum);
+                    if (finalAnswer > previousNumInt) {
+                        maximumAnswer.setText(String.valueOf(finalAnswer));
+                    }
+                    if (finalAnswer < previousNumInt) {
+                        minimumAnswer.setText(String.valueOf(finalAnswer));
+                    }
+                }
+
             }
             //multiply button
             else if (event.getSource() == buttonStorage[1][0]) {
@@ -123,6 +146,17 @@ public class Client extends Application {
                 previousAnswer.setText(calcHistory.getLast());
                 labelAnswer.setText(String.valueOf(finalAnswer));
                 calcHistory.add(String.valueOf(finalAnswer));
+
+                if (calcHistory.size() > 2) {
+                    String previousNum = calcHistory.get(calcHistory.size() - 2);
+                    int previousNumInt = Integer.parseInt(previousNum);
+                    if (finalAnswer > previousNumInt) {
+                        maximumAnswer.setText(String.valueOf(finalAnswer));
+                    }
+                    if (finalAnswer < previousNumInt) {
+                        minimumAnswer.setText(String.valueOf(finalAnswer));
+                    }
+                }
 
             }
             // divide button
