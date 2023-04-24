@@ -270,6 +270,7 @@ public class Client extends Application {
         stage.setTitle("Simple Integer Calculator");
         stage.show();
         isRunning = true;
+
     }
 
     public static void main(String[] args) {
