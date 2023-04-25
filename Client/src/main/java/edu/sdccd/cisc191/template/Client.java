@@ -67,7 +67,7 @@ public class Client extends Application {
         @Override
         public void handle(ActionEvent event) {
             isRunning = true;
-            Calculator calc = new Calculator();
+            CalculatorLogic calc = new CalculatorLogic();
             //TODO make new calchistory object and use that inside if statements
 
             //get text of the button (operator)
@@ -262,7 +262,7 @@ public class Client extends Application {
         // Create the scene and set it on the stage
         Scene scene = new Scene(root, 1000, 300);//width was 800
         stage.setScene(scene);
-        stage.setTitle("Simple Integer Calculator");
+        stage.setTitle("Simple Integer CalculatorLogic");
         stage.show();
         isRunning = true;
 

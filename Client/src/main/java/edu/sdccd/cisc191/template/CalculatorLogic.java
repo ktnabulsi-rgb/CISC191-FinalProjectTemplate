@@ -2,10 +2,10 @@ package edu.sdccd.cisc191.template;
 
 import java.util.LinkedList;
 
-public class Calculator {
+public class CalculatorLogic {
     private LinkedList<String> calcHistory;
 
-    public Calculator() {
+    public CalculatorLogic() {
         calcHistory = new LinkedList<>();
         calcHistory.add("No previous answers");
     }
