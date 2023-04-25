@@ -294,7 +294,8 @@ public class Client extends Application {
             calcHistory.add(read);
         }
 
-        //launch();
+       // launch();
+
 
         //TODO On exit send history to server for persistance
 

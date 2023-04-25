@@ -87,6 +87,7 @@ public class Server {
 //            else if() {
 //                //TODO - create and handle history saved request
 //            }
+            IOHelper.writeData(calcHistory);
 
         }
 
