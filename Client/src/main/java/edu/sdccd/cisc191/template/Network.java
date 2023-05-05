@@ -12,12 +12,15 @@ public class Network {
     private BufferedReader in;
     private String ip;
     private int port;
+    private boolean logSent;
 
     public Network(String ip, int port) {
         this.ip = "127.0.0.1";
         this.port = 4444;
+        logSent = false;
     }
     public void startConnection(String ip, int port) throws IOException {
+        System.out.println("Client started");
         clientSocket = new Socket(ip, port);
         out = new PrintWriter(clientSocket.getOutputStream(), true);
         in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
@@ -33,16 +36,18 @@ public class Network {
         return LogResponse.fromJSON(in.readLine());
     }
 
-    public void sendLog() {
-        //TODO boolean return type to determine if log was sent
+    public boolean sendLog() {
         try {
             startConnection(ip, port);
             //TODO Parse and return response boolean
             System.out.println(sendRequest().toString());
+            logSent = true;
             stopConnection();
         } catch(Exception e) {
+            System.out.println("Connection was unsuccessful.");
+            logSent = false;
             e.printStackTrace();
-            //TODO return false if there is an error (connection would be unsuccsessful)
         }
+        return logSent;
     }
 }

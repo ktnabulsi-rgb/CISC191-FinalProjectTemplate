@@ -25,8 +25,10 @@ public class Server {
     private BufferedReader in;
 
     public void start(int port) throws Exception {
+        System.out.println("Waiting for client...");
         serverSocket = new ServerSocket(port);
         clientSocket = serverSocket.accept();
+        System.out.println("Connection established");
         out = new PrintWriter(clientSocket.getOutputStream(), true);
         in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 
