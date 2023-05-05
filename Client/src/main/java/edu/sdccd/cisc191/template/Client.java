@@ -43,6 +43,7 @@ public class Client extends Application {
         //set alignment
         buttonPane.setAlignment(Pos.BOTTOM_CENTER);
 
+
         // Create a grid of buttons and add them to the buttonPane
         for (int r = 0; r < buttonStorage.length; r++) {
             for (int c = 0; c < buttonStorage[r].length; c++) {
