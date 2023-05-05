@@ -220,38 +220,12 @@ public class Client extends Application {
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
-        //TODO create new thread class to contain new timer thread
-        //set labels and text fields and ctrs accordingly
+
+        //set labels accordingly
         timerLbl = new Label("Application Run Time: ");
-        timerTxt = "";
-        timerCtr = 0;
+        TimerThread timerThread = new TimerThread(timerLbl);
+        timerThread.run();
 
-        new Thread(new Runnable() { //create thread
-            @Override
-            public void run() {
-                try{
-                    while(true) //infinite loop bcs were counting as the app runs
-                    {
-                        if(true) {
-                            timerTxt = "Application Run Time: " + timerCtr; //print app run time and update
-                            timerCtr++; //increase counter everytime for persistence
-                        }
-                        Platform.runLater(new Runnable() { //make sure its running on application thread
-                            @Override
-                            public void run() {
-                                timerLbl.setText(timerTxt); //reset text to update to specified # of seconds
-                            }
-                        });
-                        Thread.sleep(1000); //set 1second
-
-                    }
-                }
-                catch (InterruptedException ex) {
-                    //no need for exception here
-                }
-            }
-
-        }).start(); //execute new thread
 
         //create text fields
         textFieldCurrentNum = new TextField();
@@ -279,7 +253,6 @@ public class Client extends Application {
         buttonStorage[1][1] = new Button("/");
         buttonStorage[2][1] = new Button("C");
         buttonStorage[2][0] = new Button("Q");
-
 
         //set font for buttons.
         Font buttonFont = new Font(15);
