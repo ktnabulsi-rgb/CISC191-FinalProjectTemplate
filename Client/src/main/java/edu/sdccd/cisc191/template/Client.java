@@ -29,6 +29,9 @@ public class Client extends Application {
     private final Button[][] buttonStorage = new Button[3][3];
     private boolean isRunning = false;
     private LinkedList<String> calcHistory = new LinkedList<>();
+    private Label timerLbl;
+    private String timerTxt;
+    private int timerCtr;
 
     public GridPane createButtonGrid() {
         isRunning = true;
@@ -53,6 +56,7 @@ public class Client extends Application {
             }
         }
 
+
         return buttonPane;
     }
 
@@ -69,6 +73,8 @@ public class Client extends Application {
             //get text of the button (operator)
             //quit button
             if (event.getSource() == buttonStorage[2][0]) {
+                //TODO use the network instance to log
+                //TODO handle false log - notify user log did not work
                 IOHelper.writeData(calcHistory);
                 isRunning = false;
                 Platform.exit();
@@ -200,6 +206,11 @@ public class Client extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         //isRunning should not be true bcs we are still rendering
+        //TODO Grab the ip from a new application.properties file
+        //TODO move this to class variable (instance variable)
+        Network net = new Network("127.0.0.1", 4444);
+        net.sendLog();
+
         if (isRunning) {
             throw new Exception("Rendering encountered an error. ");
         }
@@ -209,6 +220,38 @@ public class Client extends Application {
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
+        //TODO create new thread class to contain new timer thread
+        //set labels and text fields and ctrs accordingly
+        timerLbl = new Label("Application Run Time: ");
+        timerTxt = "";
+        timerCtr = 0;
+
+        new Thread(new Runnable() { //create thread
+            @Override
+            public void run() {
+                try{
+                    while(true) //infinite loop bcs were counting as the app runs
+                    {
+                        if(true) {
+                            timerTxt = "Application Run Time: " + timerCtr; //print app run time and update
+                            timerCtr++; //increase counter everytime for persistence
+                        }
+                        Platform.runLater(new Runnable() { //make sure its running on application thread
+                            @Override
+                            public void run() {
+                                timerLbl.setText(timerTxt); //reset text to update to specified # of seconds
+                            }
+                        });
+                        Thread.sleep(1000); //set 1second
+
+                    }
+                }
+                catch (InterruptedException ex) {
+                    //no need for exception here
+                }
+            }
+
+        }).start(); //execute new thread
 
         //create text fields
         textFieldCurrentNum = new TextField();
@@ -254,7 +297,7 @@ public class Client extends Application {
 
 
         // Create an HBox to hold the text fields and labels
-        HBox hBoxInput = new HBox(80, textFieldCurrentNum, textFieldPendingNum, labelAnswer, previousAnswer, maximumAnswer, minimumAnswer);
+        HBox hBoxInput = new HBox(80, textFieldCurrentNum, textFieldPendingNum, labelAnswer, previousAnswer, maximumAnswer, minimumAnswer, timerLbl);
         hBoxInput.setPrefHeight(100); // was 50
         hBoxInput.setAlignment(Pos.BOTTOM_CENTER);
 
@@ -273,8 +316,9 @@ public class Client extends Application {
 
     }
 
+
     public static void main(String[] args) {
-        //run code
         launch();
-    }
-}
+      }
+    } //end class Client
+

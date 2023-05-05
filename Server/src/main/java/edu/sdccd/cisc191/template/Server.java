@@ -1,7 +1,11 @@
 package edu.sdccd.cisc191.template;
 
-import java.net.*;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.ServerSocket;
+import java.net.Socket;
 
 /**
  * This program is a server that takes connection requests on
@@ -20,7 +24,7 @@ public class Server {
     private PrintWriter out;
     private BufferedReader in;
 
-    /*public void start(int port) throws Exception {
+    public void start(int port) throws Exception {
         serverSocket = new ServerSocket(port);
         clientSocket = serverSocket.accept();
         out = new PrintWriter(clientSocket.getOutputStream(), true);
@@ -28,29 +32,31 @@ public class Server {
 
         String inputLine;
         while ((inputLine = in.readLine()) != null) {
-            CustomerRequest request = CustomerRequest.fromJSON(inputLine);
-            CustomerResponse response = new CustomerResponse(request.getId(), "Jane", "Doe");
-          out.println(CustomerResponse.toJSON(response));
+            LogRequest request = LogRequest.fromJSON(inputLine);
+            //TODO create a database class and use it to log
+            //TODO log to database
+            //TODO based on logging status return the response (boolean success)
+            LogResponse response = new LogResponse();
+          out.println(LogResponse.toJSON(response));
       }
-   }*/
+   }
 
-    //public void stop() throws IOException {
-       // in.close();
-        //out.close();
-        //clientSocket.close();
-        //serverSocket.close();
-   // }
+    public void stop() throws IOException {
+        in.close();
+        out.close();
+        clientSocket.close();
+        serverSocket.close();
+    }
 
     public static void main(String[] args) {
-        /*Server server = new Server();
+        Server server = new Server();
         try {
             server.start(4444);
             server.stop();
         } catch(Exception e) {
             e.printStackTrace();
-        }*/
+        }
         //start here
-
 
     }
 
