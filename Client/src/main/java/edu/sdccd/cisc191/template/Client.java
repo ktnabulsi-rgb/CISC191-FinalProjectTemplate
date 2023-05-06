@@ -16,7 +16,10 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import java.io.FileNotFoundException;
+import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.Objects;
+
 
 public class Client extends Application {
     //instance variables
@@ -255,15 +258,12 @@ public class Client extends Application {
         buttonStorage[2][1] = new Button("C");
         buttonStorage[2][0] = new Button("Q");
 
-        //set font for buttons.
+
         Font buttonFont = new Font(15);
-        for (Button[] r : buttonStorage) {
-            for (Button button : r) {
-                if (button != null) {
-                    button.setFont(buttonFont);
-                }
-            }
-        }
+        Arrays.stream(buttonStorage) //create a new stream for buttonstorage array
+                .flatMap(Arrays::stream) //flatten the values to single stream of buttons
+                .filter(Objects:: nonNull) //filter all null values
+                .forEach(button -> button.setFont(buttonFont)); //set font for each button
 
         //set size of text fields for number insertion
         textFieldCurrentNum.setPrefSize(120, 20);

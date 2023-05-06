@@ -38,7 +38,7 @@ public class Network {
     public boolean sendLog() {
         try {
             startConnection(ip, port);
-            //TODO Parse and return response boolean
+            LogResponse response = sendRequest();
             System.out.println(sendRequest().toString());
             logSent = true;
             stopConnection();
