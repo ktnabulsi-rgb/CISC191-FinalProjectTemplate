@@ -5,8 +5,8 @@ import javafx.application.Platform;
 import javafx.scene.control.Label;
 
 public class TimerThread implements Runnable {
-private Label timerLbl;
-private int timerCtr;
+    private Label timerLbl;
+    private int timerCtr;
 
     public TimerThread(Label timerLbl) {
         this.timerLbl = timerLbl;
@@ -35,7 +35,6 @@ private int timerCtr;
             }
         }).start();
 
-        }
-
     }
 
+}

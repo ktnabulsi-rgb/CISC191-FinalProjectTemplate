@@ -293,6 +293,5 @@ public class Client extends Application {
 
     public static void main(String[] args) {
         launch();
-      }
-    } //end class Client
-
+    }
+} //end class Client

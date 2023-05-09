@@ -39,9 +39,9 @@ public class Server {
             //TODO log to database
             //TODO based on logging status return the response (boolean success)
             LogResponse response = new LogResponse();
-          out.println(LogResponse.toJSON(response));
-      }
-   }
+            out.println(LogResponse.toJSON(response));
+        }
+    }
 
     public void stop() throws IOException {
         in.close();

@@ -23,6 +23,12 @@
             <version>5.8.1</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>edu.sdccd.cisc191.template</groupId>
+            <artifactId>Server</artifactId>
+            <version>1.0.0</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
     <build>
