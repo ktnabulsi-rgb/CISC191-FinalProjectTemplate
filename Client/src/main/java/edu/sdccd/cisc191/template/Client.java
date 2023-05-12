@@ -35,6 +35,7 @@ public class Client extends Application {
     private Label timerLbl;
     private String timerTxt;
     private int timerCtr;
+    private static Thread timerThread;
 
     public GridPane createButtonGrid() {
         isRunning = true;
@@ -226,8 +227,9 @@ public class Client extends Application {
 
         //set labels accordingly
         timerLbl = new Label("Application Run Time: ");
-        TimerThread timerThread = new TimerThread(timerLbl);
-        timerThread.run();
+
+        Client.timerThread = new Thread(new TimerThread(timerLbl));
+        Client.timerThread.start();
 
 
         //create text fields

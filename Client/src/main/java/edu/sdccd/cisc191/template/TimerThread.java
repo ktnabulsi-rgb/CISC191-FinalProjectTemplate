@@ -15,7 +15,6 @@ public class TimerThread implements Runnable {
     @Override
     public void run() {
 
-        new Thread(() -> {
             try {
                 while (true) //infinite loop bcs were counting as the app runs
                 {
@@ -31,8 +30,8 @@ public class TimerThread implements Runnable {
             } catch (InterruptedException ex) {
                 //no need for exception here
             }
-        }).start();
+        }
 
     }
 
-}
+
