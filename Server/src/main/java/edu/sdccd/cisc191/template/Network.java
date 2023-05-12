@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+
 public class Network {
     private Socket clientSocket;
     private PrintWriter out;
@@ -18,6 +19,7 @@ public class Network {
         this.port = 4444;
         logSent = false;
     }
+
     public void startConnection(String ip, int port) throws IOException {
         System.out.println("Client started");
         clientSocket = new Socket(ip, port);
@@ -30,6 +32,7 @@ public class Network {
         out.close();
         clientSocket.close();
     }
+
     public LogResponse sendRequest() throws Exception {
         out.println(LogRequest.toJSON(new LogRequest(1)));
         return LogResponse.fromJSON(in.readLine());
@@ -42,7 +45,7 @@ public class Network {
             System.out.println(sendRequest().toString());
             logSent = true;
             stopConnection();
-        } catch(Exception e) {
+        } catch (Exception e) {
             System.out.println("Connection was unsuccessful.");
             logSent = false;
             e.printStackTrace();

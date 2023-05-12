@@ -185,8 +185,7 @@ public class Client extends Application {
                 if (pendingNum == 0) {
                     labelAnswer.setText("Undefined");
                     calcHistory.add("Undefined");
-                }
-                else {
+                } else {
                     finalAnswer = currentNum / pendingNum;
                     previousAnswer.setText(calcHistory.getLast());
                     labelAnswer.setText(String.valueOf(finalAnswer));
@@ -262,7 +261,7 @@ public class Client extends Application {
         Font buttonFont = new Font(15);
         Arrays.stream(buttonStorage) //create a new stream for buttonstorage array
                 .flatMap(Arrays::stream) //flatten the values to single stream of buttons
-                .filter(Objects:: nonNull) //filter all null values
+                .filter(Objects::nonNull) //filter all null values
                 .forEach(button -> button.setFont(buttonFont)); //set font for each button
 
         //set size of text fields for number insertion

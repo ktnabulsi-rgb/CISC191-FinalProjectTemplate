@@ -1,8 +1,11 @@
 package edu.sdccd.cisc191.template;
+
 import javafx.geometry.Pos;
 import javafx.scene.layout.GridPane;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 public class ClientTest {
     @Test
     public void checkButtonGridStyle() {

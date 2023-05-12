@@ -1,7 +1,6 @@
 package edu.sdccd.cisc191.template;
 
 import javafx.application.Platform;
-
 import javafx.scene.control.Label;
 
 public class TimerThread implements Runnable {
@@ -17,8 +16,8 @@ public class TimerThread implements Runnable {
     public void run() {
 
         new Thread(() -> {
-            try{
-                while(true) //infinite loop bcs were counting as the app runs
+            try {
+                while (true) //infinite loop bcs were counting as the app runs
                 {
                     String timerTxt = "Application Run Time: " + timerCtr; //print app run time and update
                     timerCtr++; //increase counter everytime for persistence
@@ -29,8 +28,7 @@ public class TimerThread implements Runnable {
                     Thread.sleep(1000); //set 1second
 
                 }
-            }
-            catch (InterruptedException ex) {
+            } catch (InterruptedException ex) {
                 //no need for exception here
             }
         }).start();

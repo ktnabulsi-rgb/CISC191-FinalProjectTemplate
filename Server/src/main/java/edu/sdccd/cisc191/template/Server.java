@@ -55,7 +55,7 @@ public class Server {
         try {
             server.start(4444);
             server.stop();
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         //start here
